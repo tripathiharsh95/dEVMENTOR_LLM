@@ -1,0 +1,11 @@
+torch
+torchvision
+torchaudio
+transformers
+accelerate
+bitsandbytes
+peft
+datasets
+fastapi
+uvicorn[standard]
+requests

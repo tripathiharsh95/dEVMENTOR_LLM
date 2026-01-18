@@ -1,0 +1,181 @@
+=============================
+devMentor – Command Guide
+Windows 11 + Anaconda Prompt
+Project path: D:\Projects\LLM\devMentor
+Conda env: devmentor
+Backend: http://127.0.0.1:8000
+=============================
+
+
+====================================
+1) OPEN ANACONDA PROMPT & ACTIVATE ENV
+====================================
+
+1. Open "Anaconda Prompt" from Start menu.
+
+2. Activate the devMentor environment:
+
+    conda activate devmentor
+
+3. Go to the project folder (switch to D: drive first):
+
+    D:
+    cd D:\Projects\LLM\devMentor
+
+
+
+====================================
+2) START THE BACKEND SERVER (devMentor API)
+====================================
+
+Use this whenever you want to chat with devMentor
+(keep this window OPEN while using the UI or quick_test).
+
+From Anaconda Prompt (after activating env and cd into folder):
+
+    conda activate devmentor
+    D:
+    cd D:\Projects\LLM\devMentor
+
+    uvicorn server:app --host 127.0.0.1 --port 8000
+
+You should see:
+
+    Application startup complete.
+    Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+
+To stop the server, press:  CTRL + C
+
+
+
+====================================
+3) OPEN THE CHAT UI (LIKE CHATGPT)
+====================================
+
+1. Make sure the backend server is running
+   (see section 2).
+
+2. In File Explorer, go to:
+
+    D:\Projects\LLM\devMentor
+
+3. Double-click:
+
+    chat.html
+
+4. A browser window opens.
+   Type your question and press "Send" or press Enter.
+
+
+
+====================================
+4) TEST THE API USING quick_test.py
+====================================
+
+Use this to test the /chat endpoint from Python.
+
+Open a SECOND Anaconda Prompt:
+
+    conda activate devmentor
+    D:
+    cd D:\Projects\LLM\devMentor
+
+Run:
+
+    python quick_test.py
+
+If everything is working, you will see:
+
+    Status: 200
+    Response:
+    (devMentor's answer...)
+
+
+
+====================================
+5) TRAIN / RETRAIN devMentor (LoRA FINE-TUNING)
+====================================
+
+Only run this when:
+- you add more examples to data/devmentor_dataset.jsonl, or
+- you want to retrain devMentor from scratch.
+
+Commands:
+
+    conda activate devmentor
+    D:
+    cd D:\Projects\LLM\devMentor
+
+Run training:
+
+    python train_devmentor.py
+
+This will:
+- load the base model (deepseek-coder-1.3b-instruct)
+- fine-tune with LoRA in 4-bit
+- save the adapter to: .\devmentor-lora
+
+After training:
+- restart the server (stop uvicorn with CTRL + C, then start it again)
+  so it uses the new LoRA weights.
+
+
+
+====================================
+6) CHECK PYTORCH + CUDA (OPTIONAL)
+====================================
+
+If you ever want to verify GPU setup:
+
+    conda activate devmentor
+    D:
+    cd D:\Projects\LLM\devMentor
+
+    python check_torch.py
+
+Expected:
+
+    PyTorch: 2.x.x
+    CUDA available: True
+    GPU: NVIDIA GeForce RTX 3050 ...
+
+
+
+====================================
+7) COMMON PROBLEMS & QUICK FIXES
+====================================
+
+A) quick_test.py gives ConnectionError / WinError 10061
+-------------------------------------------------------
+Reason: The server is NOT running.
+
+Fix:
+- Start uvicorn first (see section 2)
+- Then run quick_test.py in a second Anaconda Prompt.
+
+
+B) Browser says "This site can’t be reached"
+--------------------------------------------
+Checklist:
+- Is uvicorn running and showing "Uvicorn running on http://127.0.0.1:8000"?
+- Are you visiting:  http://127.0.0.1:8000/docs  (NOT https)
+- If uvicorn crashed, check the error in the Anaconda Prompt.
+
+
+C) Forgot basic workflow?
+-------------------------
+1. Open Anaconda Prompt
+2. conda activate devmentor
+3. D:
+4. cd D:\Projects\LLM\devMentor
+5. Start server:
+
+    uvicorn server:app --host 127.0.0.1 --port 8000
+
+6. Open chat.html and start using devMentor.
+
+
+
+=============================
+End of devMentor Command Guide
+=============================
